@@ -247,9 +247,11 @@ class EventPositions(strax.Plugin):
 class CorrectedAreas(strax.Plugin):
     depends_on = ['event_basics', 'event_positions']
     dtype = [('cs1', np.float32, 'Corrected S1 area (PE)'),
-             ('cs2', np.float32, 'Corrected S2 area (PE)')]
+             ('cs2', np.float32, 'Corrected S2 area (PE)'),
+             ('elifetime',np.float32,'electron lifetime correction constant')
+             ]
 
-    __version__='0.0.1'
+    __version__='0.0.2'
 
     def setup(self):
         self.s1_map = InterpolatingMap(
