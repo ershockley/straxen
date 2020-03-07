@@ -42,7 +42,7 @@ def strax_workshop_dali():
                 '/dali/lgrandi/aalbers/strax_data',
                 readonly=True,
                 provide_run_metadata=False),
-            strax.DataDirectory('./strax_data',
+            strax.DataDirectory('/project2/lgrandi/jylong/strax_data',
                                 provide_run_metadata=False)],
         register=straxen.plugins.pax_interface.RecordsFromPax,
         # When asking for runs that don't exist, throw an error rather than

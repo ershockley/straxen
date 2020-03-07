@@ -249,6 +249,8 @@ class CorrectedAreas(strax.Plugin):
     dtype = [('cs1', np.float32, 'Corrected S1 area (PE)'),
              ('cs2', np.float32, 'Corrected S2 area (PE)')]
 
+    __version__='0.0.1'
+
     def setup(self):
         self.s1_map = InterpolatingMap(
             get_resource(self.config['s1_relative_lce_map']))
@@ -264,7 +266,8 @@ class CorrectedAreas(strax.Plugin):
 
         return dict(
             cs1=events['s1_area'] / self.s1_map(event_positions),
-            cs2=events['s2_area'] * lifetime_corr / self.s2_map(s2_positions))
+            cs2=events['s2_area'] * lifetime_corr / self.s2_map(s2_positions),
+            elifetime=lifetiem_corr)
 
 
 @strax.takes_config(
