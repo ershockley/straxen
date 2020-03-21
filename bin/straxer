@@ -133,6 +133,7 @@ def main(args):
         kwargs = dict(
             run_id=args.run_id,
             targets=args.target,
+            discard_results=True,
             max_workers=int(args.workers))
 
         if args.profile_to:
@@ -145,10 +146,6 @@ def main(args):
     for i, d in enumerate(get_results()):
         mem_mb = process.memory_info().rss / 1e6
         peak_ram = max(mem_mb, peak_ram)
-
-        if not len(d):
-            print(f"Got chunk {i}, but it is empty! Using {mem_mb:.1f} MB RAM.")
-            continue
 
         # Compute detector/data time left
         t = d.end / 1e9
