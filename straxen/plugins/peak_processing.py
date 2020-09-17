@@ -106,6 +106,14 @@ class PeakBasicsHighEnergy(PeakBasics):
     def compute(self, peaks_he):
         return super().compute(peaks_he)
 
+    
+class GraphNN(PeakPositions):  #GraphNN gets depended on by something at the event level. 
+    algorithm_name = 'gnn' # this gets appended to variable, e.g. x_gnn
+    
+    def eval(??):
+        pass
+        # runs the network
+        returns {'x' : 0, 'y' : 2} # this gets appended later
 
 @export
 @strax.takes_config(
@@ -147,6 +155,7 @@ class PeakPositions(strax.Plugin):
     __version__ = '0.1.0'
 
     def setup(self):
+        return # this setup goes to subclass
         import tensorflow as tf
         keras = tf.keras
 
@@ -174,7 +183,16 @@ class PeakPositions(strax.Plugin):
         os.remove(fname)
         self.nn = nn
 
-    def compute(self, peaks):
+    def eval(self, peaks): 
+        raise NotImplementedError
+        
+    def compute(self, peaks):  # This runs eval in the subclass
+        # pre processing
+        self.eval()
+        # postprocessing.
+        result['x' + self.algorithm_name][peak_mask] = _out[:, 0]
+        #### Ignore below
+        
         result = np.ones(len(peaks), dtype=self.dtype)
         result['time'], result['endtime'] = peaks['time'], strax.endtime(peaks)
         result['x'] *= float('nan')
